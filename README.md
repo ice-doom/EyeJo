@@ -28,8 +28,8 @@ EyeJo是一款自动化资产风险评估平台，可以协助甲方安全人员
 ### docker部署
 
 ```sh
+docker build -t eyejo_ubuntu:v1 -f docker/Dockerfile .
 cd docker
-docker build -t eyejo_ubuntu:v1 .
 docker-compose up -d
 ```
 
