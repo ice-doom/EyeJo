@@ -35,8 +35,9 @@ docker-compose up -d
 
 ## 登录
 
-[http://127.0.0.1:6103](http://127.0.0.1:6103)
-密码： admin/eyejo@666
+[http://127.0.0.1:6103](http://127.0.0.1:6103)  
+密码： admin/eyejo@666  
+数据库MySQL账号密码：root/eyejo@pass
 
 ### 账号操作
 
@@ -65,7 +66,7 @@ python3 manage.py initadmin --user admin --password password --email admin@examp
 
 3. 项目详情
 - 3.1 站点详情
-对测试目标进行信息收集工作，帮助安全人员快速了解测试目标。包括指纹、标题、图标、截图等信息
+对测试目标进行信息收集工作，帮助安全人员快速了解测试目标。包括指纹、标题、图标、截图等信息  
 可以自定义对单个、多个站进行tag管理，分类后，可进行tag搜索，一个项目有大量目标时可方便筛选需要的数据
 ![项目详情](images/20210506181915589_27051.png)
 - 3.2 域名
@@ -94,8 +95,11 @@ python3 manage.py initadmin --user admin --password password --email admin@examp
 
 2. 漏洞
 漏洞：xray扫描结果
+
 POC：pocsuite3扫描结果
+
 fuzz：目录爆破结果
+
 服务爆破：端口服务爆破结果
 ![漏洞](images/20210506172746443_32198.png)
 ![FUZZ](images/20210506172712158_9590.png)
@@ -106,27 +110,27 @@ fuzz：目录爆破结果
 ![](images/20210506183730610_9110.png)
 
 
-## 添加漏洞库
+## 添加POC和指纹
 
-可更新指纹库 **eyejo/plugin/fingermap/data/wappalyzer.json**
+可更新指纹库 **eyejo/plugin/fingermap/data/wappalyzer.json**  
 可更新POC **eyejo/plugin/pocsuite3/pocs/**，模板参考
 
 
 ## TODO
 
-POC、指纹管理
-资产监控
+POC、指纹管理  
+资产监控  
 漏洞消息推送
 
 
 ## 致谢
 
-[https://github.com/TophantTechnology/ARL](https://github.com/TophantTechnology/ARL)
-[https://github.com/chaitin/xray](https://github.com/chaitin/xray)
-[https://github.com/ffuf/ffuf](https://github.com/ffuf/ffuf)
-[https://github.com/projectdiscovery/naabu](https://github.com/projectdiscovery/naabu)
-[https://github.com/knownsec/pocsuite3](https://github.com/knownsec/pocsuite3)
-[https://github.com/shmilylty/OneForAll](https://github.com/shmilylty/OneForAll)
-[https://github.com/0Kee-Team/crawlergo](https://github.com/0Kee-Team/crawlergo)
+[https://github.com/TophantTechnology/ARL](https://github.com/TophantTechnology/ARL)  
+[https://github.com/chaitin/xray](https://github.com/chaitin/xray)  
+[https://github.com/ffuf/ffuf](https://github.com/ffuf/ffuf)  
+[https://github.com/projectdiscovery/naabu](https://github.com/projectdiscovery/naabu)  
+[https://github.com/knownsec/pocsuite3](https://github.com/knownsec/pocsuite3)  
+[https://github.com/shmilylty/OneForAll](https://github.com/shmilylty/OneForAll)  
+[https://github.com/0Kee-Team/crawlergo](https://github.com/0Kee-Team/crawlergo)  
 [https://github.com/rverton/webanalyze](https://github.com/rverton/webanalyze)
 
