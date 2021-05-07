@@ -118,7 +118,7 @@ fuzz：目录爆破结果
 ## 添加POC和指纹
 
 可更新指纹库 **eyejo/plugin/fingermap/data/wappalyzer.json**  
-可更新POC **eyejo/plugin/pocsuite3/pocs/**，模板参考
+可更新POC **eyejo/plugin/pocsuite3/pocs/**，[模板参考](https://github.com/ice-doom/EyeJo/wiki/POC%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E6%A8%A1%E6%9D%BF)  
 
 
 ## TODO
