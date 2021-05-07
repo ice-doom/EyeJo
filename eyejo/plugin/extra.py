@@ -68,6 +68,16 @@ class SideStationInfo:
         with open(settings.SETTING_FILE) as f:
             yaml_configuration = yaml.safe_load(f)
 
+        if yaml_configuration['fofa_api']['key']:
+            url = f'https://fofa.so/api/v1/info/my?email={yaml_configuration["fofa_api"]["email"]}&key={yaml_configuration["fofa_api"]["key"]}'
+            resp = requests.get(url, verify=False)
+            if resp.json().get('error'):
+                logger.warning(f"FOFA API密钥错误")
+                return
+        else:
+            logger.warning(f"Shodan、FOFA API为空")
+            return
+
         query = {'email': yaml_configuration['fofa_api']['email'],
                  'key': yaml_configuration['fofa_api']['key'],
                  'qbase64': base64.b64encode(keyword.encode('utf-8')),
@@ -127,6 +137,7 @@ class CNetInfo:
 
     async def request(self, ip_address, semaphore):
         async with semaphore:
+            logger.info(f"CNetInfo--target is {ip_address}")
             url = f'http://{ip_address}'
             resp_dict = await request(url)
             if resp_dict.get(False):
@@ -150,3 +161,4 @@ class CNetInfo:
         except (KeyboardInterrupt, RuntimeError):
             for task in asyncio.Task.all_tasks():
                 task.cancel()
+
