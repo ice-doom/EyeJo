@@ -100,8 +100,10 @@ python3 manage.py initadmin --user admin --password password --email admin@examp
 
 1. 任务管理
 ![任务管理](images/20210506172611472_20684.png)
-
-2. 漏洞  
+2.添加任务
+可以对已有项目的资产组添加任务
+![添加任务](20210507173204664_24701.png)
+3. 漏洞  
 漏洞：xray扫描结果  
 POC：pocsuite3扫描结果  
 fuzz：目录爆破结果  
@@ -118,7 +120,7 @@ fuzz：目录爆破结果
 ## 添加POC和指纹
 
 可更新指纹库 **eyejo/plugin/fingermap/data/wappalyzer.json**  
-可更新POC **eyejo/plugin/pocsuite3/pocs/**，[模板参考](https://github.com/ice-doom/EyeJo/wiki/POC%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E6%A8%A1%E6%9D%BF)  
+可更新POC **eyejo/plugin/pocsuite3/pocs/**，模板参考
 
 
 ## TODO
