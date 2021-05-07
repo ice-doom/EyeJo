@@ -18,6 +18,7 @@ sed -i 's/user www-data/user root/' /etc/nginx/nginx.conf && \
 mkdir /var/log/celery/ && \
 pip3 install setuptools && \
 pip3 install -r requirements.txt && \
+sed -i 's/{k.lower(): v for k, v in headers.items()}/{k: v for k, v in headers.items()}/' /usr/local/lib/python3.8/dist-packages/pyppeteer/network_manager.py && \
 /root/install.sh && \
 rm -rf  /var/lib/apt/lists/*
 
