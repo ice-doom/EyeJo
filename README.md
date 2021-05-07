@@ -27,8 +27,16 @@ EyeJo是一款自动化资产风险评估平台，可以协助甲方安全人员
 
 ### docker部署
 
+获取镜像
 ```sh
-docker build -t eyejo_ubuntu:v1 -f docker/Dockerfile .
+## 重新构建
+## docker build -t eyejo_ubuntu:latest -f docker/Dockerfile .
+## 拉取最新
+docker pull mirchdocker/eyejo
+```
+
+一键部署
+```
 cd docker
 docker-compose up -d
 ```
@@ -115,7 +123,7 @@ fuzz：目录爆破结果
 
 ## TODO
 
-POC、指纹管理  
+POC、指纹管理、自定义fofa语法等  
 资产监控  
 漏洞消息推送
 
