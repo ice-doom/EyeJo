@@ -30,7 +30,7 @@ EyeJo是一款自动化资产风险评估平台，可以协助甲方安全人员
 获取镜像
 ```sh
 ## 重新构建
-## docker build -t eyejo_ubuntu:latest -f docker/Dockerfile .
+## docker build -t mirchdocker/eyejo:latest -f docker/Dockerfile .
 ## 拉取最新
 docker pull mirchdocker/eyejo
 ```
