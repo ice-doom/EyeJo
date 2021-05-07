@@ -100,9 +100,9 @@ python3 manage.py initadmin --user admin --password password --email admin@examp
 
 1. 任务管理
 ![任务管理](images/20210506172611472_20684.png)
-2.添加任务
+2.添加任务  
 可以对已有项目的资产组添加任务
-![添加任务](20210507173204664_24701.png)
+![添加任务](images/20210507173204664_24701.png)
 3. 漏洞  
 漏洞：xray扫描结果  
 POC：pocsuite3扫描结果  
