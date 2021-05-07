@@ -3,6 +3,8 @@ services:
  ubuntu:
   image: mirchdocker/eyejo:latest
   container_name: eyejo_ubuntu
+  ports:
+   - 6103:443
   restart: on-failure
   depends_on:
    - database
