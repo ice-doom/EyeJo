@@ -1,0 +1,32 @@
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+    ssl_certificate /etc/nginx/certs/eyejo.crt;
+    ssl_certificate_key /etc/nginx/certs/eyejo.key;
+    ssl_trusted_certificate /etc/nginx/certs/eyejo_chain.pem;
+
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers '!EDH:!EXP:!SHA:!DSS:EECDH+aRSA+AESGCM:EECDH+aRSA+SHA384:EECDH+aRSA+SHA256';
+
+    ssl_ecdh_curve sect571r1:secp521r1:brainpoolP512r1:secp384r1;
+
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 1d;
+    ssl_session_tickets off;
+
+    location / {
+        root /root/eyejo/plugin/dist;
+        try_files $uri $uri/ /index.html;
+        index index.html;
+    }
+    location /api/v1/ {
+        include uwsgi_params;
+        uwsgi_pass 127.0.0.1:8001;
+        rewrite ^/api/v1/(.*)$ /$1 break;
+    }
+
+    location /screen_data/ {
+        root /root/eyejo/plugin;
+    }
+}

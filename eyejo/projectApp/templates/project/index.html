@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="static/js/jquery-3.5.1.min.js"></script>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>新建项目</title>
+</head>
+<body>
+                    <form id="contact-form" class="row" action="" method="post">
+                         {% csrf_token %}
+                        <input type="hidden" name="name" value="tt">
+
+                        <div class="span2">
+                            <label>已知资产</label>
+                        </div>
+                        <div class="span6">
+                        <textarea name="asset_list" class="required span6" rows="6"
+                                  title="* Please enter your message">dddd</textarea>
+                        </div>
+
+                        <div class="span6 offset2 bm30">
+                            <input type="submit" name="submit" value="保存" class="btn btn-inverse">
+                        </div>
+
+                    </form>
+
+
+    <script>
+    $(document).ready(function(){
+        $('#按钮1').click(function(){
+            var dataObj = {};
+            $("input[name=project]").each(function(){
+                dataObj[$(this).attr("id")] = $('#project_name').val()
+            });
+            $("input[type=checkbox]").each(function(){
+                dataObj[$(this).attr("id")] = $(this).prop('checked') ? 2: 1;
+            });
+            $("textarea[name=targets]").each(function(){
+                dataObj[$(this).attr("id")] = $('#targets').val()
+            });
+            $.ajax({
+                type : 'POST',
+                url : "discovery_run",
+                data : dataObj
+            });
+        });
+    });
+</script>
+</body>
+</html>

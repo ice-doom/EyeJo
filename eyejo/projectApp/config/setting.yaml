@@ -1,0 +1,19 @@
+censys_api:
+  id: null
+  secret: null
+crawl:
+  to_poc: true
+fofa_api:
+  email: 
+  key: 
+get_ip_info:
+  action: getlite2
+request_site:
+  concurrent: 20
+  max_tries: 0
+screen:
+  concurrent: 10
+  max_tries: 0
+  speed_type: normal
+shodan_api:
+  key: 

@@ -1,0 +1,26 @@
+version: '3'
+services:
+ ubuntu:
+  image: mirchdocker/eyejo:latest
+  container_name: eyejo_ubuntu
+  restart: on-failure
+  depends_on:
+   - database
+  working_dir: /root/eyejo/
+  entrypoint: ["sh", "-c", "python3 manage.py initadmin --user admin --password eyejo@666 --email eyejo@admin.com; nginx; supervisord -c ./supervisord.conf; celery -A EyeJo.celery:app worker --loglevel=info -c 2 -O fair -f celery.log"]
+ 
+ redis:
+  image: redis:latest
+  container_name: eyejo_redis
+  command: redis-server --appendonly yes
+ 
+ database:
+  image: mariadb:10.5
+  container_name: eyejo_mariadb
+  command: --init-file /init.sql --max_allowed_packet=52428800 --max_connections=1000
+  volumes:
+   - ./EyeJo.sql:/init.sql
+  environment:
+   - MYSQL_ROOT_PASSWORD=eyejo@pass
+   - MYSQL_DATABASE=EyeJo
+ 
