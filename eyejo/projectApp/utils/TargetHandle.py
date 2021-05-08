@@ -309,17 +309,18 @@ def get_target(target):
     return get_target_dict
 
 
-def is_valid_ip(target):
+def is_valid_ip(target, is_long=True):
     # 检验是否为IP
-    new_target = get_target(target)
-    if new_target.get('new_target'):
-        re_ip = re.compile('(?:(?:25[0-5]|2[0-4]\d|[01]?\d?\d)\.){3}(?:25[0-4]|2[0-4]\d|[01]?\d?\d)$').match(new_target.get('new_target'))
-        if re_ip:
-            return new_target
-        else:
+    re_target = target
+    if is_long:
+        target = get_target(target)
+        if not target.get('new_target'):
             return False
-    else:
-        return False
+        re_target = target.get('new_target')
+    re_ip = re.compile('(?:(?:25[0-5]|2[0-4]\d|[01]?\d?\d)\.){3}(?:25[0-4]|2[0-4]\d|[01]?\d?\d)$').match(re_target)
+    if re_ip:
+        return target
+    return False
 
 
 def is_valid_domain(target):
@@ -369,7 +370,9 @@ def get_schema_target_dict(target_list, _input=True):
         new_target_ip = []
         new_target_ip_list = []
         if _input:
-            if target.startswith('http'):
+            if is_valid_ip(target, is_long=False):
+                new_target_ip = is_valid_ip(target)
+            elif target.startswith('http'):
                 new_target_domain = is_valid_domain(target)
                 new_target_ip = is_valid_ip(target)
             else:
@@ -378,7 +381,6 @@ def get_schema_target_dict(target_list, _input=True):
             new_target_domain = is_valid_domain(target)
             new_target_ip = is_valid_ip(target)
             new_target_ip_list = is_valid_ipc(target)
-
         if new_target_ip_list:
             for ip in new_target_ip_list:
                 schema_domain = 'http://' + ip

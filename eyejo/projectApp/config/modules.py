@@ -14,7 +14,7 @@ error_map = {
         "code": 101
     },
     "TargetInvalid": {
-        "msg": "输入域名无效",
+        "msg": "输入目标格式无效",
         "code": 102
     },
     "IPInBlackIpc": {
