@@ -23,15 +23,11 @@ services:
   entrypoint: ["sh", "-c", "celery -A EyeJo.celery:app worker --loglevel=info -c 2 -O fair -f celery.log"]
 
  redis:
-  ports:
-   - 16379:6379
   image: redis:latest
   container_name: eyejo_redis
   command: redis-server --appendonly yes --requirepass eyejoPass
  
  database:
-  ports:
-   - 13306:3306
   image: mariadb:10.5
   container_name: eyejo_mariadb
   command: --init-file /init.sql --max_allowed_packet=52428800 --max_connections=1000
