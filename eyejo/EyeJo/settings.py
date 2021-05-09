@@ -26,7 +26,7 @@ with open(str(Path('/').joinpath(BASE_DIR, "config.yaml"))) as f:
 SECRET_KEY = '!z)!7awn59ip0zt$gq8bw%dnng^hs!$%7b#)umkmk+_t@*9ysd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -100,11 +100,6 @@ DATABASES = {
         "OPTIONS": {
                     "isolation_level": "repeatable read"  # 将事务隔离级别设置为repeatable read
                 },
-        # 'NAME': 'EyeJo',  # 数据库名，先前创建的
-        # 'USER': 'root',     # 用户名，可以自己创建用户
-        # 'PASSWORD': '123456',  # 密码
-        # 'HOST': '172.22.0.5',  # mysql服务所在的主机ip
-        # 'PORT': '3306',         # mysql服务端口
         'NAME': yaml_configuration["MYSQL"]["NAME"],  # 数据库名，先前创建的
         'USER': yaml_configuration["MYSQL"]["USER"],  # 用户名，可以自己创建用户
         'PASSWORD': yaml_configuration["MYSQL"]["PASSWORD"],  # 密码
@@ -168,7 +163,6 @@ LOGOUT_REDIRECT_URL = 'login'
 '''
 CELERY settings
 '''
-# CELERY_BROKER_URL = 'redis://172.22.0.4:6379'  # Broker配置，使用Redis作为消息中间件
 CELERY_BROKER_URL = f'redis://:{yaml_configuration["REDIS"]["PASSWORD"]}@{yaml_configuration["REDIS"]["HOST"]}:{yaml_configuration["REDIS"]["PORT"]}'  # Broker配置，使用Redis作为消息中间件
 CELERYD_MAX_TASKS_PER_CHILD = 20  # 每个worker最大执行任务数
 # CELERYD_CONCURRENCY = 2  # celery worker并发数,默认是服务器的内核数目
