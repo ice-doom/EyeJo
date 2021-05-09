@@ -9,14 +9,29 @@ services:
   depends_on:
    - database
   working_dir: /root/eyejo/
-  entrypoint: ["sh", "-c", "python3 manage.py initadmin --user admin --password eyejo@666 --email eyejo@admin.com; nginx; supervisord -c ./supervisord.conf; celery -A EyeJo.celery:app worker --loglevel=info -c 2 -O fair -f celery.log"]
- 
+  volumes:
+   - ./eyejo_config.yaml:/root/eyejo/config.yaml
+  entrypoint: ["sh", "-c", "python3 manage.py initadmin --user admin --password eyejo@666 --email eyejo@admin.com; nginx; supervisord -c ./supervisord.conf; tail -f /var/log/lastlog"]
+
+ worker:
+  image: mirchdocker/eyejo:latest
+  container_name: eyejo_worker
+  restart: on-failure
+  working_dir: /root/eyejo/
+  volumes:
+   - ./eyejo_config.yaml:/root/eyejo/config.yaml
+  entrypoint: ["sh", "-c", "celery -A EyeJo.celery:app worker --loglevel=info -c 2 -O fair -f celery.log"]
+
  redis:
+  ports:
+   - 16379:6379
   image: redis:latest
   container_name: eyejo_redis
-  command: redis-server --appendonly yes
+  command: redis-server --appendonly yes --requirepass eyejoPass
  
  database:
+  ports:
+   - 13306:3306
   image: mariadb:10.5
   container_name: eyejo_mariadb
   command: --init-file /init.sql --max_allowed_packet=52428800 --max_connections=1000
