@@ -125,10 +125,10 @@ fuzz：目录爆破结果
 
 ## TODO
 
-POC、指纹管理、自定义fofa语法等  
-资产监控  
-漏洞消息推送
-
+- [x] [分布式部署](https://github.com/ice-doom/EyeJo/wiki/%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2%E6%96%B9%E5%BC%8F)
+- [ ] POC、指纹管理、自定义fofa语法等
+- [ ] 资产监控
+- [ ] 漏洞消息推送
 
 ## 致谢
 
