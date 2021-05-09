@@ -1,0 +1,11 @@
+MYSQL:
+  NAME: 'EyeJo'
+  USER: 'root'
+  PASSWORD: '123456'
+  HOST: '172.22.0.5'
+  PORT: '3306'
+
+REDIS:
+  HOST: '172.22.0.4'
+  PORT: '6379'
+  PASSWORD: 'eyejoPass'
