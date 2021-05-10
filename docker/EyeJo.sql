@@ -163,6 +163,7 @@ CREATE TABLE `poc_check` (
   `poc_url` varchar(550) NOT NULL COMMENT 'poc检测的URL地址',
   `result_code` varchar(10) NOT NULL COMMENT 'POC检测结果',
   `poc_name` varchar(255) NOT NULL COMMENT 'POC名称',
+  `verifyinfo` varchar(255) NOT NULL COMMENT 'POC检测内容',
   `create_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
   CONSTRAINT `poc_task_fk` FOREIGN KEY (`task_id`) REFERENCES `task` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
