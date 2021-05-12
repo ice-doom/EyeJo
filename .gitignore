@@ -5,6 +5,13 @@ eyejo/plugin/portscan/naabu
 eyejo/plugin/chrome-linux/
 eyejo/plugin/fuzz/ffuf
 *.mmdb
+coverage
+dist
+node_modules
+npm-debug.log
+yarn-error.log
+yarn.lock
+package-lock.json
 
 # Editor directories and files
 .idea
@@ -41,6 +48,12 @@ __pycache__/
 # Django stuff:
 db.sqlite3
 
+# umi
+.umi
+.umi-production
 
+# jslingui
+src/locales/_build
+src/locales/**/*.js
 
 
