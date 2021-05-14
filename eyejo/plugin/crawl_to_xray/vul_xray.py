@@ -54,6 +54,7 @@ def delete_xray_process(process, in_read, last=False):
             if fo_read != in_read and b"All pending requests have been scanned" in fo_read:
                 return fo_read
 
+
 async def crawl_to_xray(task_id, process, len_target, task_name, q):
     # 等待xray被动扫描进程启动
     run_count = 0
@@ -120,7 +121,8 @@ async def crawl_to_xray(task_id, process, len_target, task_name, q):
         tell_num = save_vul(task_name, task_id, tell_num)
         if _get[0] == 1:
             logger.info('finish xray_scan')
-            pathlib.Path(f"{settings.XRAY_REPORT_PATH}/{task_name}.json").unlink()
+            if pathlib.Path(f"{settings.XRAY_REPORT_PATH}/{task_name}.json").exists():
+                pathlib.Path(f"{settings.XRAY_REPORT_PATH}/{task_name}.json").unlink()
             close_old_connections()
             break
 
