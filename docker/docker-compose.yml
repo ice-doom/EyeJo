@@ -11,6 +11,7 @@ services:
   working_dir: /root/eyejo/
   volumes:
    - ./eyejo_config.yaml:/root/eyejo/config.yaml
+   - ./screen_data:/root/eyejo/plugin/screen_data
   entrypoint: ["sh", "-c", "python3 manage.py initadmin --user admin --password eyejo@666 --email eyejo@admin.com; nginx; supervisord -c ./supervisord.conf; tail -f /var/log/lastlog"]
 
  worker:
@@ -20,6 +21,7 @@ services:
   working_dir: /root/eyejo/
   volumes:
    - ./eyejo_config.yaml:/root/eyejo/config.yaml
+   - ./screen_data:/root/eyejo/plugin/screen_data/
   entrypoint: ["sh", "-c", "celery -A EyeJo.celery:app worker --loglevel=info -c 2 -O fair -f celery.log"]
 
  redis:
