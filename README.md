@@ -52,7 +52,7 @@ docker-compose up -d
 删除user1用户并新增用户admin/password
 ```sh
 docker exec -it eyejo_mariadb mysql -u root -p
-## 输入密码123456
+## 输入密码eyejo@pass
 use EyeJo;
 delete from auth_user where username='user1';
 docker exec -it eyejo_ubuntu bash
