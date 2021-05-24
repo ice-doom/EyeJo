@@ -44,7 +44,9 @@ class ShoDanFoFaSearch:
                 if cname:
                     cname = cname.lower()
                 subdomain_obj, subdomain_created = Subdomain.objects.get_or_create(project_id=self.project_id, subdomain=subdomain, m_domain=domain, defaults={'cname': cname})
-                ip_list = domain_ip_dict.get(subdomain).get('ip') or []
+                ip_list = []
+                if domain_ip_dict.get(subdomain):
+                    ip_list = domain_ip_dict.get(subdomain).get('ip')
                 for ip in ip_list:
                     ipaddress_obj, ipaddress_created = IPAddress.objects.get_or_create(project_id=self.project_id, ip_address=ip)
                     if subdomain_created or ipaddress_created:

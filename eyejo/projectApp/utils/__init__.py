@@ -5,6 +5,13 @@ import ipaddress
 from fake_useragent import UserAgent
 import random
 from celery.utils.log import get_task_logger
+from pathlib import Path
+from shutil import copyfile
+from projectApp.config import settings
+
+fake_useragent_path = Path('/').joinpath(settings.basedir, "plugin/fake_useragent_0.1.11.json")
+fake_useragent_tmp_path = Path('/tmp/fake_useragent_0.1.11.json')
+copyfile(fake_useragent_path, fake_useragent_tmp_path)
 
 
 ua = UserAgent()

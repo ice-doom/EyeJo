@@ -21,7 +21,9 @@ services:
   working_dir: /root/eyejo/
   volumes:
    - ./eyejo_config.yaml:/root/eyejo/config.yaml
-   - ./screen_data:/root/eyejo/plugin/screen_data/
+   - ./screen_data:/root/eyejo/plugin/screen_data
+   - ./xray_config.yaml:/root/eyejo/plugin/crawl_to_xray/xray/config.yaml
+   - ./xray_poc:/root/eyejo/plugin/crawl_to_xray/xray/xray_poc
   entrypoint: ["sh", "-c", "celery -A EyeJo.celery:app worker --loglevel=info -c 2 -O fair -f celery.log"]
 
  redis:
