@@ -23,7 +23,7 @@ def xray_scan(task_name):
         if not pathlib.Path(f'{settings.XRAY_PATH}/ca.crt').exists():
             subprocess.getstatusoutput(f"cd {settings.XRAY_PATH} && {settings.XRAY_EXEC_PATH} genca")
 
-        cmd = [settings.XRAY_EXEC_PATH, "--config", settings.XRAY_CONFIG_PATH, "webscan", "--listen", settings.XRAY_LISTEN, "--json-output", f"{settings.XRAY_REPORT_PATH}/{task_name}.json"]
+        cmd = [settings.XRAY_EXEC_PATH, "--config", settings.XRAY_CONFIG_PATH, "webscan", "--listen", settings.XRAY_LISTEN, "--json-output", f"{settings.XRAY_REPORT_PATH}/{task_name}.json", "--html-output", f"{settings.XRAY_REPORT_PATH}/{task_name}.html"]
         with open(f'{settings.XRAY_REPORT_PATH}/xray_stdout.log', 'w') as f:
             process = subprocess.Popen(cmd, stdout=f)
         return process

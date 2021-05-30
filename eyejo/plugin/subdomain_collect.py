@@ -42,7 +42,7 @@ def main(domain_l, project_id, asset_id, task_id, yaml_config):
                                                                                  subdomain=subdomain, m_domain=m_domain,
                                                                                  defaults={"cname": cname})
                     for ip in ips.split(','):
-                        if not check_black_ip(ip):
+                        if not check_black_ip(ip) and not TargetHandle.is_valid_ip(ip):
                             url_dict = TargetHandle.get_target(row[3])
                             url = url_dict['scheme'] + url_dict['new_target']
                             if created:
