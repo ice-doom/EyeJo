@@ -7,6 +7,8 @@ from plugin.OneForAll.common.utils import match_subdomains
 from django.db import close_old_connections
 from django.db.utils import IntegrityError
 from projectApp.utils import port_relation
+import time
+import random
 
 logger = utils.get_logger()
 
@@ -83,12 +85,16 @@ class ShoDanFoFaSearch:
         if sf_info_s:
             keyword = fofa_search
         else:
-            keyword = f'domain="{fofa_search}"'
+            keyword = f'domain="{fofa_search}" && is_ipv6=false'
         # 目前搜索100条数目，最多可以搜索1w条
         page_num = 1
-        query_size = 1000
+        query_size = 5000
         # query_size = 50
-        query = {'email': self.yaml_config['fofa_api']['email'],
+        fofa_api_url = "https://fofa.so/api/v1/search/all"
+        s = req.session()
+        retry_count = 0
+        while True:
+            query = {'email': self.yaml_config['fofa_api']['email'],
                  'key': self.yaml_config['fofa_api']['key'],
                  'qbase64': base64.b64encode(keyword.encode('utf-8')),
                  'page': page_num,
@@ -96,21 +102,43 @@ class ShoDanFoFaSearch:
                  'size': query_size,
                  'fields': 'host,ip,port,protocol'
                  }
-        fofa_api_url = "https://fofa.so/api/v1/search/all"
-        s = req.session()
-        while True:
-            resp = s.get(fofa_api_url, params=query, verify=False)
-            resp_json = resp.json()
-            if resp_json.get('error'):  # API的key错误停止后续操作
-                break
-            size = resp_json.get('size')
-            subdomains = match_subdomains(fofa_search, resp.text)
-            if not subdomains:  # 搜索没有发现子域名则停止搜索
-                break
-            self.fofa_save(resp_json.get("results"), fofa_search)
-            if size < query_size:
-                break
-            page_num += 1
+            try:
+                resp = s.get(fofa_api_url, params=query, verify=False)
+                resp_json = resp.json()
+                if resp_json.get('error'):  # API的key错误停止后续操作
+                    break
+                subdomains = match_subdomains(fofa_search, resp.text)
+                if not subdomains:  # 搜索没有发现子域名则停止搜索
+                    break
+
+                sleep_time = round(random.uniform(0, 2), 2)
+                time.sleep(sleep_time)
+                self.fofa_save(resp_json.get("results"), fofa_search)
+                if len(resp_json.get("results")) < query_size:
+                    break
+                page_num += 1
+            except Exception as e:
+                logger.warning(f"error domain {fofa_search}")
+                logger.warning(e)
+                if retry_count >= 1:
+                    break
+                retry_count += 1
+                time.sleep(10)
+            # except req.exceptions.ConnectionError:
+            #     logger.warning(f"error domain {domain}")
+            #     logger.warning(f'requests.exceptions.ConnectionError')
+            #     if retry_count >= 1:
+            #         break
+            #     retry_count += 1
+            #     time.sleep(10)
+            # except req.exceptions.Timeout:
+            #     logger.warning(f"error target {domain}")
+            #     logger.warning(f'requests.exceptions.Timeout')
+            #     if retry_count >= 1:
+            #         break
+            #     retry_count += 1
+            #     time.sleep(10)
+
 
     def fofa_save(self, results, m_domain):
         # 进行排序,有protocol的放在后面,利用下面的更新库操作,来覆盖前面为空的情况
