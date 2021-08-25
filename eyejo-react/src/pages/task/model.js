@@ -1,8 +1,8 @@
-import modelExtend from 'dva-model-extend'
-import { isEmpty } from 'lodash'
-import api from 'api'
-import { pageModel } from 'utils/model'
-const { pathToRegexp } = require('path-to-regexp')
+import modelExtend from "dva-model-extend";
+import { isEmpty } from "lodash";
+import api from "api";
+import { pageModel } from "utils/model";
+const { pathToRegexp } = require("path-to-regexp");
 
 const {
   queryTask,
@@ -13,14 +13,14 @@ const {
   queryProject,
   queryProjectDetailsAssets,
   taskCheckName,
-} = api
+} = api;
 
 export default modelExtend(pageModel, {
-  namespace: 'task',
+  namespace: "task",
 
   state: {
     modalVisible: false,
-    modalType: 'create',
+    modalType: "create",
     selectedRowKeys: [],
     project_id: null,
   },
@@ -29,24 +29,24 @@ export default modelExtend(pageModel, {
     setup({ dispatch, history }) {
       history.listen((location) => {
         // console.log('setup', location)
-        const { params } = location
-        if (pathToRegexp('/task').exec(location.pathname)) {
-          let payload = {}
+        const { params } = location;
+        if (pathToRegexp("/task").exec(location.pathname)) {
+          let payload = {};
           if (!isEmpty(params)) {
-            payload = params
+            payload = params;
             if (params.project_id) {
               dispatch({
-                type: 'changeState',
+                type: "changeState",
                 payload,
-              })
+              });
             }
           }
           dispatch({
-            type: 'query',
+            type: "query",
             payload,
-          })
+          });
         }
-      })
+      });
     },
   },
 
@@ -54,18 +54,18 @@ export default modelExtend(pageModel, {
     changeState({ payload = {} }, { put }) {
       // console.log(payload)
       put({
-        type: 'changeState',
+        type: "changeState",
         payload,
-      })
+      });
     },
     *query({ payload = {} }, { call, put }) {
-      let obj = { page: 1, limit: 10 }
-      payload = isEmpty(payload) ? obj : { ...obj, ...payload }
-      const data = yield call(queryTask, payload)
+      let obj = { page: 1, limit: 10 };
+      payload = isEmpty(payload) ? obj : { ...obj, ...payload };
+      const data = yield call(queryTask, payload);
       // console.log('query', data)
       if (data) {
         yield put({
-          type: 'querySuccess',
+          type: "querySuccess",
           payload: {
             list: data.data,
             pagination: {
@@ -74,104 +74,105 @@ export default modelExtend(pageModel, {
               total: data.total,
             },
           },
-        })
+        });
       }
     },
 
     *delete({ payload }, { call, put, select }) {
-      const data = yield call(removeTask, { id: payload })
-      const { selectedRowKeys } = yield select((_) => _.task)
+      const data = yield call(removeTask, { id: payload });
+      const { selectedRowKeys } = yield select((_) => _.task);
       if (data.success) {
         yield put({
-          type: 'updateState',
+          type: "updateState",
           payload: {
             selectedRowKeys: selectedRowKeys.filter((_) => _ !== payload),
           },
-        })
+        });
       } else {
-        throw data
+        throw data;
       }
     },
 
     *multiDelete({ payload }, { call, put }) {
-      const data = yield call(removeTaskList, payload)
+      const data = yield call(removeTaskList, payload);
       if (data.success) {
-        yield put({ type: 'updateState', payload: { selectedRowKeys: [] } })
+        yield put({ type: "updateState", payload: { selectedRowKeys: [] } });
       } else {
-        throw data
+        throw data;
       }
     },
 
     *pause({ payload }, { call, put, select }) {
-      const data = yield call(pauseTask, { id: payload })
-      const { selectedRowKeys } = yield select((_) => _.task)
+      const data = yield call(pauseTask, { id: payload });
+      const { selectedRowKeys } = yield select((_) => _.task);
       if (data.success) {
         yield put({
-          type: 'updateState',
+          type: "updateState",
           payload: {
             selectedRowKeys: selectedRowKeys.filter((_) => _ !== payload),
           },
-        })
+        });
       } else {
-        throw data
+        throw data;
       }
     },
 
     *create({ payload }, { call, put }) {
-      const data = yield call(createTask, payload)
+      const data = yield call(createTask, payload);
       if (data.success) {
-        yield put({ type: 'hideModal' })
+        yield put({ type: "hideModal" });
+        return data;
       } else {
-        return data
+        return data;
       }
     },
 
     *queryProject({ payload = {} }, { call, put }) {
-      const data = yield call(queryProject, { page: 1, limit: 10000 })
-      const { resolve, reject } = payload
+      const data = yield call(queryProject, { page: 1, limit: 10000 });
+      const { resolve, reject } = payload;
       if (data.success) {
-        resolve(data.data)
+        resolve(data.data);
       } else {
-        reject(data)
+        reject(data);
       }
     },
 
     *queryAssets({ payload = {} }, { call, put }) {
-      const { id, resolve, reject } = payload
+      const { id, resolve, reject } = payload;
       const data = yield call(queryProjectDetailsAssets, {
         id,
         page: 1,
         limit: 10000,
-      })
+      });
       if (data.success) {
-        resolve(data.data)
+        resolve(data.data);
       } else {
-        reject(data)
+        reject(data);
       }
     },
 
     *check({ payload = {} }, { call }) {
-      const { resolve, reject, parameter } = payload
-      const data = yield call(taskCheckName, parameter)
+      const { resolve, reject, parameter } = payload;
+      const data = yield call(taskCheckName, parameter);
       if (data.success) {
-        resolve(data.data)
+        resolve(data.data);
       } else {
-        reject(data)
+        reject(data);
       }
     },
   },
 
   reducers: {
     showModal(state, { payload }) {
-      return { ...state, ...payload, modalVisible: true }
+      return { ...state, ...payload, modalVisible: true };
     },
 
     hideModal(state) {
-      return { ...state, modalVisible: false }
+      return { ...state, modalVisible: false };
     },
     changeState(state, { payload }) {
       // console.log(payload)
-      return { ...state, ...payload }
+      return { ...state, ...payload };
     },
   },
-})
+});
